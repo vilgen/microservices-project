@@ -5,7 +5,20 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/product-service/pom.xml" />
+        <option value="$PROJECT_DIR$/order-service/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/inventory-service/ear/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/ejbs/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/primary-source/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/projects/logging/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/projects/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/servlets/pom.xml" />
+        <option value="$PROJECT_DIR$/inventory-service/servlets/servlet/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
