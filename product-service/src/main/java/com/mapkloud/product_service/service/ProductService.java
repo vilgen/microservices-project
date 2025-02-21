@@ -4,6 +4,7 @@ import com.mapkloud.product_service.dto.ProductRequest;
 import com.mapkloud.product_service.dto.ProductResponse;
 import com.mapkloud.product_service.model.Product;
 import com.mapkloud.product_service.repository.ProductRepository;
+import com.mapkloud.product_service.util.ProductHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,15 +36,8 @@ public class ProductService {
 
     public List<ProductResponse> getAllProducts() {
         List<Product> productList = productRepository.findAll();
-
-        return productList.stream().map(product -> {
-                    return ProductResponse.ProductResponseBuilder.aProductResponse()
-                            .id(product.getId())
-                            .name(product.getName())
-                            .description(product.getDescription())
-                            .price(product.getPrice())
-                            .build();
-        })
+        return productList.stream().map(ProductHelper::convertProductToProductResponse)
                 .toList();
     }
+
 }
