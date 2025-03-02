@@ -26,7 +26,7 @@ public class OrderService {
         this.webClientBuilder = webClientBuilder;
     }
 
-    public void placeOrder(OrderRequest orderRequest) {
+    public String placeOrder(OrderRequest orderRequest) {
 
         List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItemsDtoList()
                 .stream().map(OrderHelper::mapDtoToOrderLineItems)
@@ -53,6 +53,7 @@ public class OrderService {
             throw new IllegalArgumentException("Product is not in stock, please try again later");
         } else {
             orderRepository.save(order);
+            return "Order Placed Successfully";
         }
     }
 }
