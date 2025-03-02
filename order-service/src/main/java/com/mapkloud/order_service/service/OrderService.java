@@ -2,10 +2,12 @@ package com.mapkloud.order_service.service;
 
 import com.mapkloud.order_service.dto.InventoryResponse;
 import com.mapkloud.order_service.dto.OrderRequest;
+import com.mapkloud.order_service.event.OrderPlacedEvent;
 import com.mapkloud.order_service.model.Order;
 import com.mapkloud.order_service.model.OrderLineItems;
 import com.mapkloud.order_service.repository.OrderRepository;
 import com.mapkloud.order_service.util.OrderHelper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -21,9 +23,12 @@ public class OrderService {
 
     private final WebClient.Builder webClientBuilder;
 
-    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder) {
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+
+    public OrderService(OrderRepository orderRepository, WebClient.Builder webClientBuilder, KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate) {
         this.orderRepository = orderRepository;
         this.webClientBuilder = webClientBuilder;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public String placeOrder(OrderRequest orderRequest) {
@@ -53,6 +58,7 @@ public class OrderService {
             throw new IllegalArgumentException("Product is not in stock, please try again later");
         } else {
             orderRepository.save(order);
+            kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
             return "Order Placed Successfully";
         }
     }
